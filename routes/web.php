@@ -42,6 +42,7 @@ $router->group(['middleware' => ['auth']], function($router){
         $router->get('/', 'MejaController@index');
         $router->get('/{id}', 'MejaController@show');
         $router->delete('/{id}', 'MejaController@destroy');
+        $router->put('/{id}', 'MejaController@update');
     });
     
     //buat admin
