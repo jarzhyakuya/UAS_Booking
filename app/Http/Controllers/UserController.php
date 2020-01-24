@@ -18,7 +18,6 @@
                 'role' => 'required|in:Admin,User'
             ]);
 
-
             //create user
             $user = new User;
             $user->email = $request->input('email');
@@ -32,8 +31,8 @@
             return response()->json($user, 200);
         }
 
-        public function login(Request $request){
-            
+        public function login(Request $request)
+        {    
             $this->validate($request, [
                 'email' => 'required|email|unique:user',
                 'password' => 'required',
@@ -55,8 +54,8 @@
             ],200);
         }
 
-        public function show($id){
-
+        public function show($id)
+        {
             $user = User::find($id);
             if(!$user){
                 abort(404);
@@ -87,15 +86,5 @@
             return response()->json($user, 200);
         }
 
-        public function destroy($id)
-        {
-            $user = User::find($id);
-            if(!$user){
-                abort(404);
-            }
-            $user->delete();
-            $message = ['message' => 'deleted successfully', 'id' => $id];
-            return response()->json($message, 200);
-        }
     }
 ?>
