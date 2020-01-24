@@ -4,20 +4,20 @@ namespace App\Models;
 
 use Illuminate\database\Eloquent\Model;
 
-class Meja extends Model
+class Tarif extends Model
 {
     // define column name
     protected $fillable = [
-        'no_meja', 
-        'kursi', 
-        'posisi', 
-        'status'
+        'biaya', 
+        'kursi'
     ];
 
     // Untuk melakukan update field created_at dan update_at secara otomatis
     public $timestamps = true;
 
-    public function mejao(){
-        return $this->hasMany(Booking::class,'meja_id');
+    public function tarifo(){
+
+        return $this->hasMany(Booking::class,'tarif_id');
+
     }
 }

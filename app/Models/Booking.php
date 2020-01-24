@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\database\Eloquent\Model;
 
-class Meja extends Model
+class Booking extends Model
 {
     // define column name
     protected $fillable = [
-        'no_meja', 
-        'kursi', 
-        'posisi', 
+        'meja_id', 
+        'tarif_id',
+        'user_id',
+        'tanggal_booking',
         'status'
     ];
 
@@ -18,6 +19,12 @@ class Meja extends Model
     public $timestamps = true;
 
     public function mejao(){
-        return $this->hasMany(Booking::class,'meja_id');
+        return $this->belongsTo(Meja::class,'meja_id');
     }
+    public function tarifo(){
+        return $this->belongsTo(Tarif::class,'tarif_id');
+    }
+    
+
+
 }

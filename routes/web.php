@@ -30,7 +30,7 @@ $router->get('/scores', ['middleware' => 'login', function () {
 $router->get('/users', 'UsersController@index');
 
 $router->group(['prefix' => 'user'], function() use ($router){
-    //Matches "/api/register
+    //buat user ajah
     $router->post('/register', 'UserController@register');
     $router->post('/login', 'UserController@login');
 });
@@ -41,9 +41,16 @@ $router->group(['middleware' => ['auth']], function($router){
         $router->post('/', 'MejaController@store');
         $router->get('/', 'MejaController@index');
         $router->get('/{id}', 'MejaController@show');
-        $router->delete('/destroy/{id}', 'MejaController@destroy');
+        $router->delete('/{id}', 'MejaController@destroy');
+    });
+    
+    //buat admin
+    $router->group(['prefix' => 'user'], function() use ($router){
+        $router->get('/', 'UserController@index');
+        $router->get('/{id}', 'UserController@show');
+        $router->put('/{id}', 'UserController@update');
+        $router->delete('/{id}', 'UserController@destroy');
     });
 
-    
 });
 

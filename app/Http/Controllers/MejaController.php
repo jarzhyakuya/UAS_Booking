@@ -53,8 +53,7 @@
         
         public function destroy($id)
         {
-            $meja = Meja::where('id', Auth::user()->id)
-                ->where('id', $id);
+            $meja = Meja::find($id);
             $meja->delete();
             $message = ['message' => 'delete sucessfull', 'id' => $id ];
             return response()->json($meja, 200);
