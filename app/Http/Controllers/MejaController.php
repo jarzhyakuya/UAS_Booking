@@ -54,7 +54,7 @@
             $meja = Meja::find($id);
             $meja->delete();
             $message = ['message' => 'delete sucessfull', 'id' => $id ];
-            return response()->json($meja, 200);
+            return response()->json($message, 200);
         }
 
         public function update(Request $request, $id)
