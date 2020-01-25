@@ -14,7 +14,7 @@
 
             $this->validate($request, [
                 'biaya' => 'required|integer',
-                'kursi' => 'required|in:2,4,6,8,10|integer'
+                'kursi' => 'required|in:2,4,6,8,10'
             ]);
             $tarif = Tarif::create($input);
             return response()->json($tarif, 200);
