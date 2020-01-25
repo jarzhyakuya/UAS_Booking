@@ -18,11 +18,14 @@ class Booking extends Model
     // Untuk melakukan update field created_at dan update_at secara otomatis
     public $timestamps = true;
 
-    public function mejao(){
+    public function meja(){
         return $this->belongsTo(Meja::class,'meja_id');
     }
-    public function tarifo(){
+    public function tarif(){
         return $this->belongsTo(Tarif::class,'tarif_id');
+    }
+    public function booking(){
+        return $this->hasMany(Pembayaran::class,'booking_id');
     }
     
 

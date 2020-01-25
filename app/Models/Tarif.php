@@ -15,7 +15,7 @@ class Tarif extends Model
     // Untuk melakukan update field created_at dan update_at secara otomatis
     public $timestamps = true;
 
-    public function tarifo(){
+    public function tarif(){
 
         return $this->hasMany(Booking::class,'tarif_id');
 

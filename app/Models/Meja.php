@@ -17,7 +17,7 @@ class Meja extends Model
     // Untuk melakukan update field created_at dan update_at secara otomatis
     public $timestamps = true;
 
-    public function mejao(){
+    public function meja(){
         return $this->hasMany(Booking::class,'meja_id');
     }
 }
