@@ -30,7 +30,6 @@ $router->get('/scores', ['middleware' => 'login', function () {
 $router->get('/users', 'UsersController@index');
 
 $router->group(['prefix' => 'user'], function() use ($router){
-    //buat user ajah
     $router->post('/register', 'UserController@register');
     $router->post('/login', 'UserController@login');
 });
@@ -45,11 +44,19 @@ $router->group(['middleware' => ['auth']], function($router){
         $router->put('/{id}', 'MejaController@update');
     });
     
-    //buat admin
     $router->group(['prefix' => 'user'], function() use ($router){
         $router->get('/{id}', 'UserController@show');
         $router->put('/{id}', 'UserController@update');
     });
+
+    $router->group(['prefix' => 'tarif'], function() use ($router){
+        $router->post('/', 'TarifController@store');
+        $router->get('/', 'TarifController@index');
+        $router->delete('/{id}', 'TarifController@destroy');
+        $router->put('/{id}', 'TarifController@update');
+    });
+
+    
 
 });
 

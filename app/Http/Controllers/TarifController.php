@@ -14,7 +14,7 @@
 
             $this->validate($request, [
                 'biaya' => 'required|integer',
-                'kursi' => 'required|in:2,4,6,8,10'
+                'kursi' => 'required|in:2,4,6,8,10|integer'
             ]);
             $tarif = Tarif::create($input);
             return response()->json($tarif, 200);
@@ -34,22 +34,13 @@
             ];
             return response()->json($tarif, 200);
         }
-
-        public function show($id)
-        {
-            $tarif = Tarif::find($id);
-            if(!$tarif){
-                abort(404);
-            }
-            return response()->json($tarif, 200);
-        }
         
         public function destroy($id)
         {
             $tarif = Tarif::find($id);
             $tarif->delete();
             $message = ['message' => 'delete sucessfull', 'id' => $id ];
-            return response()->json($tarif, 200);
+            return response()->json($message, 200);
         }
 
         public function update(Request $request, $id)
