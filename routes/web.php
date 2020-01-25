@@ -56,6 +56,23 @@ $router->group(['middleware' => ['auth']], function($router){
         $router->put('/{id}', 'TarifController@update');
     });
 
+    $router->group(['prefix' => 'booking'], function() use ($router){
+        $router->post('/', 'BookingController@store');
+        $router->get('/', 'BookingController@index');
+        $router->get('/{id}', 'BookingController@show');
+        $router->delete('/{id}', 'BookingController@destroy');
+        $router->put('/{id}', 'BookingController@update');
+    });
+
+    $router->group(['prefix' => 'pembayaran'], function() use ($router){
+        $router->post('/', 'PembayaranController@store');
+        $router->get('/', 'PembayaranController@index');
+        $router->get('/{id}', 'PembayaranController@show');
+        $router->delete('/{id}', 'PembayaranController@destroy');
+    });
+
+
+
     
 
 });
