@@ -71,9 +71,5 @@ $router->group(['middleware' => ['auth']], function($router){
         $router->delete('/{id}', 'PembayaranController@destroy');
     });
 
-
-
-    
-
 });
 

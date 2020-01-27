@@ -12,14 +12,13 @@
         {
             $input = $request->all();
             $this->validate($request, [
-                'booking_id' => 'required|interger',
                 'meja_id' => 'required|integer',
                 'tarif_id' => 'required|integer',
                 'user_id' => 'required|integer',
                 'tanggal_booking' => 'required|date',
                 'status' => 'required|in:done,cancel,waiting'
             ]);
-            $booking = Tarif::create($input);
+            $booking = Booking::create($input);
             return response()->json($booking, 200);
         }
         
@@ -63,7 +62,11 @@
                 abort(404);
             }
             $this->validate($request, [
-                
+                'meja_id' => 'required|integer',
+                'tarif_id' => 'required|integer',
+                'user_id' => 'required|integer',
+                'tanggal_booking' => 'required|date',
+                'status' => 'required|in:done,cancel,booking'
             ]);
             $booking->fill($input);
             $booking->save();

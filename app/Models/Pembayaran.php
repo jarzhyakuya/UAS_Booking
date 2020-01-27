@@ -15,7 +15,7 @@ class Pembayaran extends Model
     // Untuk melakukan update field created_at dan update_at secara otomatis
     public $timestamps = true;
 
-    public function pembayaran(){
+    public function booking(){
 
         return $this->belongsTo(Booking::class,'booking_id');
 

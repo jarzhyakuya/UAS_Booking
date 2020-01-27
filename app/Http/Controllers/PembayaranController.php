@@ -12,10 +12,10 @@
         {
             $input = $request->all();
             $this->validate($request, [
-                'total' => 'required|interger',
+                'total' => 'required|integer',
                 'booking_id' => 'required|integer'
             ]);
-            $pembayaran = Tarif::create($input);
+            $pembayaran = Pembayaran::create($input);
             return response()->json($pembayaran, 200);
         }
         
