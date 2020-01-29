@@ -5,11 +5,21 @@
     use App\Models\Meja;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Gate;
 
     class MejaController extends Controller
     {
         public function store(Request $request)
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+
             $this->validate($request, [
                 'no_meja' => 'required',
                 'kursi' => 'required|in:2,4,6,8,10',
@@ -27,7 +37,20 @@
         
         public function index()
         {
-            $meja = Meja::OrderBy("id", "DESC")->paginate(10)->toArray();
+            // Authorization Admin and User
+            if(Gate::denies('admin-user')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+            if(Auth::user()->role === 'Admin'){
+                $meja = Meja::OrderBy("id", "DESC")->paginate(10)->toArray();
+            }else{
+                $meja = Meja::where('status', 'free')->OrderBy("id", "DESC")->paginate(10)->toArray();
+            }
+            
             $response = [
                 "total_count" => $meja["total"],
                 "limit" => $meja["per_page"],
@@ -51,6 +74,15 @@
         
         public function destroy($id)
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+
             $meja = Meja::find($id);
             $meja->delete();
             $message = ['message' => 'delete sucessfull', 'id' => $id ];
@@ -58,7 +90,7 @@
         }
 
         public function update(Request $request, $id)
-        {
+        {   
             $input = $request->all();
             $meja = Meja::find($id);
             if (!$meja) {

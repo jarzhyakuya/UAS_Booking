@@ -5,11 +5,21 @@
     use App\Models\Tarif;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Gate;
 
     class TarifController extends Controller
     {
         public function store(Request $request)
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+
             $input = $request->all();
 
             $this->validate($request, [
@@ -22,6 +32,15 @@
         
         public function index()
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+
             $tarif = Tarif::OrderBy("id", "DESC")->paginate(10)->toArray();
             $response = [
                 "total_count" => $tarif["total"],
@@ -37,6 +56,15 @@
         
         public function destroy($id)
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+
             $tarif = Tarif::find($id);
             $tarif->delete();
             $message = ['message' => 'delete sucessfull', 'id' => $id ];
@@ -45,6 +73,15 @@
 
         public function update(Request $request, $id)
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+
             $input = $request->all();
             $tarif = Tarif::find($id);
             if (!$tarif) {

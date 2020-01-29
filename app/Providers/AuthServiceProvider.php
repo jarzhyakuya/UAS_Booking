@@ -31,9 +31,18 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         //Register Post policy
-        Gate::define('read-post', function($user){
+        Gate::define('admin-user', function($user){
             return $user->role == 'Admin' || $user->role == 'User';
         });
+        
+        Gate::define('admin', function($user){
+            if($user->role == 'admin'){
+                return true;
+            }else{
+                return false;
+            }
+        });
+        
 
         //Authentication start
         $this->app['auth']->viaRequest('api', function ($request) {

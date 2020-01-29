@@ -5,11 +5,13 @@
     use App\Models\Booking;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Gate;
 
     class BookingController extends Controller
     {
         public function store(Request $request)
         {
+
             $input = $request->all();
             $this->validate($request, [
                 'meja_id' => 'required|integer',
@@ -24,6 +26,15 @@
         
         public function index()
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+            
             $booking = Booking::with('meja','tarif')->OrderBy("id", "DESC")->paginate(10)->toArray();
             $response = [
                 "total_count" => $booking["total"],
@@ -39,7 +50,7 @@
 
         public function show($id)
         {
-            $booking = Booking::with('meja','tarif')->find($id);
+            $booking = Booking::where('user_id', Auth::user()->id)->with('meja','tarif')->find($id);
             if(!$booking){
                 abort(404);
             }
@@ -48,6 +59,15 @@
         
         public function destroy($id)
         {
+            // Authorization Admin
+            if(Gate::denies('admin')){
+                return response()->json([
+                    'success' => false,
+                    'status' => 403,
+                    'message' => 'you are unauthorized'
+                ], 403);
+            }
+
             $booking = Booking::find($id);
             $booking->delete();
             $message = ['message' => 'delete sucessfull', 'id' => $id ];
@@ -56,6 +76,7 @@
 
         public function update(Request $request, $id)
         {
+
             $input = $request->all();
             $booking = Booking::find($id);
             if (!$booking) {
