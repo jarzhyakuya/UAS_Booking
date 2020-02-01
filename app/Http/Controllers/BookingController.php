@@ -87,7 +87,7 @@
                 'tarif_id' => 'required|integer',
                 'user_id' => 'required|integer',
                 'tanggal_booking' => 'required|date',
-                'status' => 'required|in:done,cancel,booking'
+                'status' => 'required|in:done,cancel,waiting'
             ]);
             $booking->fill($input);
             $booking->save();
